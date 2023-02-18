@@ -10,10 +10,10 @@ async function api() {
     // console.log(out0);
 
     url1 = out0.books;
-    let books = fetch(url1);
+    let books = fetch('https://www.anapioficeandfire.com/api/books?page=1&pageSize=50');
     let out1 = await books;
     let books1 = await out1.json();
-    // console.log(books1);
+    console.log(books1);
 
     let parent_main = document.querySelector('body');
 
@@ -34,7 +34,7 @@ async function api() {
     data.setAttribute('type', 'search');
     data.classList.add('form-control')
     data.setAttribute('placeholder', 'Search');
-    data.setAttribute('id','form1')
+    data.setAttribute('id', 'form1')
     search.append(data);
 
     let button = document.createElement('button');
@@ -43,10 +43,10 @@ async function api() {
     button.classList.add('btn', 'btn-dark');
     button.innerText = 'Search'
 
-    
+
     content.append(search);
     content.append(button);
-   
+
     parent_main.append(content)
 
     let space2 = document.createElement('br');
@@ -56,17 +56,11 @@ async function api() {
     parent.classList.add("container");
 
 
-    let num = 1
-    for (let i = 0; i < books1.length; i += 2) {
+    for (let i = 0; i < books1.length; i += 3) {
 
         try {
 
-            book_url = fetch(`https://anapioficeandfire.com/api/books/${num}`);
-            output = await book_url;
-            book_detail = await output.json();
-            console.log(book_detail)
-
-
+            book_detail = books1[i];
             let child = document.createElement('div');
             child.classList.add("row");
 
@@ -93,7 +87,7 @@ async function api() {
             book_name.classList.add("list-group-item");
             book_name.innerHTML = `<span> Name: </span>${book_detail.name}`;
             list.append(book_name)
-            // console.log(book_detail.name)
+            console.log(book_detail.name)
 
             let isbn = document.createElement('li');
             isbn.classList.add("list-group-item");
@@ -121,15 +115,17 @@ async function api() {
             character.innerHTML = `<span> Characters:  </span>`;
 
             let char_list = document.createElement('ul');
-            for (let j = 0; j < 5; j++) {
-                const randomIndex = Math.floor(Math.random() * book_detail.characters.length)
-                char_url = fetch(book_detail.characters[randomIndex]);
-                output1 = await char_url;
-                char_detail = await output1.json();
-                console.log(char_detail.name)
-                let characterName = document.createElement('li');
-                characterName.innerText = `${char_detail.name}`;
-                char_list.appendChild(characterName)
+            if (book_detail.characters.length > 0) {
+                let char_length = (book_detail.characters.length > 5) ? 5 : book_detail.characters.length;
+                for (let j = 0; j < char_length; j++) {
+                    const randomIndex = Math.floor(Math.random() * book_detail.characters.length)
+                    char_url = fetch(book_detail.characters[randomIndex]);
+                    output1 = await char_url;
+                    char_detail = await output1.json();
+                    let characterName = document.createElement('li');
+                    characterName.innerText = `${char_detail.name}`;
+                    char_list.appendChild(characterName)
+                }
             }
             character.append(char_list);
             list.append(character)
@@ -139,15 +135,7 @@ async function api() {
             col1.append(card);
             child.append(col1);
 
-
-
-
-
-            num++
-
-            book_url_2 = fetch(`https://anapioficeandfire.com/api/books/${num}`);
-            output_2 = await book_url_2;
-            book_detail2 = await output_2.json();
+            book_detail2 = books1[i + 1];
 
             console.log(book_detail2)
 
@@ -175,7 +163,7 @@ async function api() {
             book_name1.classList.add("list-group-item");
             book_name1.innerHTML = `<span> Name: </span> ${book_detail2.name}`;
             list1.append(book_name1)
-            // console.log(book_detail.name)
+            console.log(book_name1.name)
 
             let isbn2 = document.createElement('li');
             isbn2.classList.add("list-group-item");
@@ -203,15 +191,17 @@ async function api() {
             character2.innerHTML = `<span> Characters:  </span>`;
 
             let char_list2 = document.createElement('ul');
-            for (let j = 0; j < 5; j++) {
-                const randomIndex = Math.floor(Math.random() * book_detail2.characters.length)
-                char_url = fetch(book_detail2.characters[randomIndex]);
-                output1 = await char_url;
-                char_detail = await output1.json();
-                console.log(char_detail.name)
-                let characterName = document.createElement('li');
-                characterName.innerText = `${char_detail.name}`;
-                char_list2.appendChild(characterName)
+            if (book_detail2.characters.length > 0) {
+                let char_length = (book_detail2.characters.length > 5) ? 5 : book_detail2.characters.length;
+                for (let j = 0; j < char_length; j++) {
+                    const randomIndex = Math.floor(Math.random() * book_detail2.characters.length)
+                    char_url = fetch(book_detail2.characters[randomIndex]);
+                    output1 = await char_url;
+                    char_detail = await output1.json();
+                    let characterName = document.createElement('li');
+                    characterName.innerText = `${char_detail.name}`;
+                    char_list2.appendChild(characterName)
+                }
             }
             character2.append(char_list2);
             list1.append(character2)
@@ -221,13 +211,7 @@ async function api() {
             col2.append(card2);
             child.append(col2);
 
-
-            num++;
-
-
-            book_url_3 = fetch(`https://anapioficeandfire.com/api/books/${num}`);
-            output_3 = await book_url_3;
-            book_detail3 = await output_3.json();
+            book_detail3 = books1[i + 2];
 
             console.log(book_detail3)
 
@@ -255,7 +239,7 @@ async function api() {
             book_name2.classList.add("list-group-item");
             book_name2.innerHTML = `<span> Name: </span> ${book_detail3.name}`;
             list2.append(book_name2)
-            // console.log(book_detail.name)
+            console.log(book_name2.name)
 
             let isbn3 = document.createElement('li');
             isbn3.classList.add("list-group-item");
@@ -284,15 +268,17 @@ async function api() {
             character3.innerHTML = `<span> Characters:  </span>`;
 
             let char_list3 = document.createElement('ul');
-            for (let j = 0; j < 5; j++) {
-                const randomIndex = Math.floor(Math.random() * book_detail3.characters.length)
-                char_url = fetch(book_detail3.characters[randomIndex]);
-                output1 = await char_url;
-                char_detail = await output1.json();
-                console.log(char_detail.name)
-                let characterName = document.createElement('li');
-                characterName.innerText = `${char_detail.name}`;
-                char_list3.appendChild(characterName)
+            if (book_detail3.characters.length > 0) {
+                let char_length = (book_detail3.characters.length > 5) ? 5 : book_detail3.characters.length;
+                for (let j = 0; j < char_length; j++) {
+                    const randomIndex = Math.floor(Math.random() * book_detail3.characters.length)
+                    char_url = fetch(book_detail3.characters[randomIndex]);
+                    output1 = await char_url;
+                    char_detail = await output1.json();
+                    let characterName = document.createElement('li');
+                    characterName.innerText = `${char_detail.name}`;
+                    char_list3.appendChild(characterName)
+                }
             }
             character3.append(char_list3);
             list2.append(character3)
@@ -301,8 +287,6 @@ async function api() {
             card3.append(card_body3);
             col3.append(card3);
             child.append(col3);
-
-            num++;
 
             parent.append(child);
             parent_main.append(parent);
@@ -321,7 +305,7 @@ api()
 function highlight(e) {
     let searchedText = document.getElementById('form1').value.trim();
     let text = oldText;
-    let re = new RegExp(searchedText, "g"); // search for all instances
-    let newText = text.replace(re, `<mark>${searchedText}</mark>`);
+    let re = new RegExp(searchedText, "gi"); // search for all instances
+    let newText = text.replace(re, function (str) { return `<mark>${str}</mark>` });
     document.getElementsByTagName("body")[0].innerHTML = newText;
 }
